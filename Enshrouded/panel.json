@@ -1,0 +1,453 @@
+{
+  "panel": {
+    "console": {
+      "send": "socket",
+      "regex": "(\\w+ \\d+) (\\d+:\\d+:\\d+) (.*)",
+      "levels": {
+        "map": [
+          {
+            "name": "Info",
+            "match": "(.*)",
+            "type": "regex",
+            "colour": "green"
+          },
+          {
+            "name": "Warning",
+            "match": "(.*MovingSphere took too long.*)",
+            "type": "regex",
+            "color": "yellow"
+          },
+          {
+            "name": "Critical",
+            "match": "(.*(Pending packets list is full|Received acknowledge for unknown packet).*)",
+            "type": "regex",
+            "color": "red"
+          }
+        ],
+        "replace": false
+      },
+      "map": {
+        "date": 1,
+        "timestamp": 2,
+        "message": 3
+      }
+    }
+  },
+
+  "files": [
+    {
+      "name": "config",
+      "path": "enshrouded1/enshrouded_server.json",
+      "handler": "json",
+      "default": true
+    }
+  ],
+  "categories": [
+    {
+      "title": "General",
+      "name": "general"
+    },
+    {
+      "title": "Game Settings",
+      "name": "game"
+    },
+    {
+      "title": "User Groups",
+      "name": "user"
+    }
+  ],
+  "title": "All settings",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "title": "Server Name",
+      "default": "A CreeperHost Server",
+      "category": "general"
+    },
+    "saveDirectory": {
+      "type": "hidden",
+      "title": "Save Directory",
+      "default": "./savegame",
+      "category": "general"
+    },
+    "logDirectory": {
+      "type": "hidden",
+      "title": "Log Directory",
+      "default": "./logs",
+      "category": "general"
+    },
+    "ip": {
+      "type": "hidden",
+      "title": "IP Address",
+      "default": "0.0.0.0",
+      "category": "general"
+    },
+    "gamePort": {
+      "type": "hidden",
+      "title": "Game Port",
+      "default": 15636,
+      "category": "general"
+    },
+    "queryPort": {
+      "type": "hidden",
+      "title": "Query Port",
+      "default": 15637,
+      "category": "general"
+    },
+    "slotCount": {
+      "type": "number",
+      "title": "Max Players",
+      "default": 4,
+      "category": "general",
+      "description": "Set as low as possible for best performance"
+    },
+    "gameSettingsPreset": {
+      "type": "hidden",
+      "default": "Custom",
+      "category": "general"
+    },
+    "gameSettings": {
+      "title": "Game Settings",
+      "type": "object",
+      "category": "game",
+      "properties": {
+        "playerHealthFactor": {
+          "title": "Player Health",
+          "description": "Scales the max health for players by a factor. Ingame, the factor is represented by a percentage.",
+          "type": "number",
+          "default": 1,
+          "minimum": 0.25,
+          "maximum": 4,
+          "category": "game"
+        },
+        "playerManaFactor": {
+          "title": "Player Mana",
+          "description": "Scales the max mana for players by a factor. Ingame, the factor is represented by a percentage.",
+          "type": "number",
+          "default": 1,
+          "minimum": 0.25,
+          "maximum": 4,
+          "category": "game"
+        },
+        "playerStaminaFactor": {
+          "title": "Player Stamina",
+          "description": "Scales the max stamina for players by a factor. Ingame, the factor is represented by a percentage.",
+          "type": "number",
+          "default": 1,
+          "minimum": 0.25,
+          "maximum": 4,
+          "category": "game"
+        },
+        "enableDurability": {
+          "title": "Weapon Durability",
+          "description": "If this setting is set to “false”, weapons don't break anymore.",
+          "type": "boolean",
+          "default": true,
+          "category": "game"
+        },
+        "enableStarvingDebuff": {
+          "title": "Hunger and Starvation",
+          "description": "Enables hunger and starvation. During starvation, the player loses health periodically until death if no food or drink is consumed.",
+          "type": "boolean",
+          "default": false,
+          "category": "game"
+        },
+        "foodBuffDurationFactor": {
+          "title": "Food Buff Duration",
+          "description": "Scales food buff durations. Ingame, the factor is represented by a percentage.",
+          "type": "number",
+          "minimum": 0.25,
+          "maximum": 4,
+          "default": 1,
+          "category": "game"
+        },
+        "fromHungerToStarving": {
+          "title": "Hungry State Duration",
+          "description": "This setting controls the length of the hungry state before the starving sets in. The unit in this setting is nanoseconds. Ingame the time is displayed in minutes.",
+          "type": "integer",
+          "minumum": 300000000000,
+          "maximum": 1200000000000,
+          "default": 600000000000,
+          "category": "game"
+        },
+        "shroudTimeFactor": {
+          "title": "Shroud time duration modifier",
+          "description": "Scales how long player characters can remain within the Shroud. Ingame, the factor is represented by a percentage.",
+          "type": "number",
+          "minimum": 0.25,
+          "maximum": 2,
+          "default": 1,
+          "category": "game"
+        },
+        "tombstoneMode": {
+          "title": "Tombstone Mode",
+          "description": "The players can either keep or lose all items from their backpack when dying. In the default setting, they only lose materials. Lost items are stored in a tombstone and can be recovered there.",
+          "type": "string",
+          "enum": ["AddBackpackMaterials", "Everything", "NoTombstone"],
+          "options": {
+            "enum_titles": [
+              "Materials in Backpack",
+              "Everything",
+              "No Tombstone"
+            ]
+          },
+          "default": "AddBackpackMaterials",
+          "category": "game"
+        },
+        "miningDamageFactor": {
+          "title": "Mining Effectiveness",
+          "description": "This scales the mining damage. A higher mining damage leads to increased terraforming and more yield of resources per hit. Ingame, the factor is represented by a percentage.",
+          "type": "number",
+          "minimum": 0.25,
+          "maximum": 2,
+          "default": 1,
+          "category": "game"
+        },
+        "plantGrowthSpeedFactor": {
+          "title": "Plant Growth Speed",
+          "description": "Scales the value of the plant growth speed. Ingame, the factor is represented by a percentage.",
+          "type": "number",
+          "minimum": 0.25,
+          "maximum": 2,
+          "default": 1,
+          "category": "game"
+        },
+        "resourceDropStackAmountFactor": {
+          "title": "Resources Gain Modifier",
+          "description": "Scales the amount of materials per loot stack in chests, defeated enemies etc. Ingame, the factor is represented by a percentage.",
+          "type": "number",
+          "minimum": 0.25,
+          "maximum": 2,
+          "default": 1,
+          "category": "game"
+        },
+        "factoryProductionSpeedFactor": {
+          "title": "Workstation Effectiveness",
+          "description": "Scales the length of production times for workshop items. Ingame, the factor is represented by a percentage.",
+          "type": "number",
+          "minimum": 0.25,
+          "maximum": 2,
+          "default": 1,
+          "category": "game"
+        },
+        "perkUpgradeRecyclingFactor": {
+          "title": "Weapon Recycling Yield Modifier",
+          "description": "Scales the amount of Runes that are returned to you when salvaging upgraded weapons. Ingame, the factor is represented by a percentage.",
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "default": 0.5,
+          "category": "game"
+        },
+        "perkCostFactor": {
+          "title": "Weapon Upgrading Costs",
+          "description": "Scales the amount of Runes required for upgrading weapons. Ingame, the factor is represented by a percentage.",
+          "type": "number",
+          "minimum": 0.25,
+          "maximum": 2,
+          "default": 1,
+          "category": "game"
+        },
+        "experienceCombatFactor": {
+          "title": "Combat Experience Modifier",
+          "description": "Scales the amount of XP received through combat. Ingame, the factor is represented by a percentage.",
+          "type": "number",
+          "minimum": 0.25,
+          "maximum": 2,
+          "default": 1,
+          "category": "game"
+        },
+        "experienceMiningFactor": {
+          "title": "Mining Experience Modifier",
+          "description": "Scales the amount of XP received by mining resources. Ingame, the factor is represented by a percentage.",
+          "type": "number",
+          "minimum": 0,
+          "maximum": 2,
+          "default": 1,
+          "category": "game"
+        },
+        "experienceExplorationQuestsFactor": {
+          "title": "Exploration Experience Modifier",
+          "description": "Scales the amount of XP received by exploring and completing quests. Ingame, the factor is represented by a percentage.",
+          "type": "number",
+          "minimum": 0.25,
+          "maximum": 2,
+          "default": 1,
+          "category": "game"
+        },
+        "randomSpawnerAmount": {
+          "title": "Enemy Amount",
+          "description": "This setting controls the amount of enemies in the world.",
+          "type": "string",
+          "enum": ["Few", "Normal", "Many", "Extreme"],
+          "default": "Normal",
+          "category": "game"
+        },
+        "aggroPoolAmount": {
+          "title": "Modifier for simultaneous Enemy Attacks",
+          "description": "This setting controls how many enemies are allowed to attack at the same time. Ingame, the factor is represented by a percentage.",
+          "type": "string",
+          "enum": ["Few", "Normal", "Many", "Extreme"],
+          "default": "Normal",
+          "category": "game"
+        },
+        "enemyDamageFactor": {
+          "title": "Enemy Damage",
+          "description": "Scales all enemy damage by this value - except for bosses. Ingame, the factor is represented by a percentage.",
+          "type": "number",
+          "minimum": 0.25,
+          "maximum": 5,
+          "default": 1,
+          "category": "game"
+        },
+        "enemyHealthFactor": {
+          "title": "Enemy Health",
+          "description": "Scales all enemy health by this value - except for bosses. Ingame, the factor is represented by a percentage.",
+          "type": "number",
+          "minimum": 0.25,
+          "maximum": 4,
+          "default": 1,
+          "category": "game"
+        },
+        "enemyStaminaFactor": {
+          "title": "Enemy Stamina",
+          "description": "Scales all enemy stamina by this value. It will take longer to stun enemies with a higher enemy stamina. This excludes bosses. Ingame, the factor is represented by a percentage.",
+          "type": "number",
+          "minimum": 0.5,
+          "maximum": 2,
+          "default": 1,
+          "category": "game"
+        },
+        "enemyPerceptionRangeFactor": {
+          "title": "Enemy Perception Modifier",
+          "description": "Scales how far enemies can see and hear the player. This excludes bosses. Ingame, the factor is represented by a percentage.",
+          "type": "number",
+          "minimum": 0.5,
+          "maximum": 2,
+          "default": 1,
+          "category": "game"
+        },
+        "bossDamageFactor": {
+          "title": "Boss Damage Modifier",
+          "description": "This setting scales the damage of boss attacks. Ingame, the factor is represented by a percentage.",
+          "type": "number",
+          "minimum": 0.2,
+          "maximum": 5,
+          "default": 1,
+          "category": "game"
+        },
+        "bossHealthFactor": {
+          "title": "Boss Health Modifier",
+          "description": "Scales health of all bosses by this value. Ingame, the factor is represented by a percentage.",
+          "type": "number",
+          "minimum": 0.2,
+          "maximum": 5,
+          "default": 1,
+          "category": "game"
+        },
+        "threatBonus": {
+          "title": "Enemy Attacks Modifier",
+          "description": "Scales the frequency of enemy attacks. This excludes bosses. Ingame, the factor is represented by a percentage.",
+          "type": "number",
+          "minimum": 0.25,
+          "maximum": 4,
+          "default": 1,
+          "category": "game"
+        },
+        "pacifyAllEnemies": {
+          "title": "Pacified Enemies",
+          "description": "If turned on, enemies won't attack the players until they are attacked. This excludes bosses.",
+          "type": "boolean",
+          "default": false,
+          "category": "game"
+        },
+        "dayTimeDuration": {
+          "title": "Daytime",
+          "description": "Scales the length of daytime. A smaller value equals shorter daytime. The unit is nanoseconds. Ingame, the time is displayed in minutes.",
+          "type": "integer",
+          "default": 1800000000000,
+          "category": "game"
+        },
+        "nightTimeDuration": {
+          "title": "Nighttime",
+          "description": "Scales the length of daytime. A smaller value equals a shorter nighttime. The unit is nanoseconds. Ingame, the time is displayed in minutes.",
+          "type": "integer",
+          "minumum": 120000000000,
+          "maximum": 3600000000000,
+          "default": 720000000000,
+          "category": "game"
+        }
+      }
+    },
+    "userGroups": {
+      "title": "User Groups",
+      "type": "array",
+      "category": "user",
+      "default": [
+        {
+          "name": "Admin",
+          "password": "",
+          "canKickBan": true,
+          "canAccessInventories": true,
+          "canEditBase": true,
+          "canExtendBase": true,
+          "reservedSlots": 1
+        },
+        {
+          "name": "Friend",
+          "password": "",
+          "canKickBan": false,
+          "canAccessInventories": true,
+          "canEditBase": true,
+          "canExtendBase": true,
+          "reservedSlots": 0
+        },
+        {
+          "name": "Guest",
+          "password": "",
+          "canKickBan": false,
+          "canAccessInventories": false,
+          "canEditBase": false,
+          "canExtendBase": false,
+          "reservedSlots": 0
+        }
+      ],
+      "items": {
+        "title": "UserGroup",
+        "type": "object",
+        "properties": {
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "password": {
+            "title": "Password",
+            "type": "string"
+          },
+          "canKickBan": {
+            "title": "Kick/Ban",
+            "type": "boolean"
+          },
+          "canAccessInventories": {
+            "title": "Inventories",
+            "type": "boolean"
+          },
+          "canEditBase": {
+            "title": "Edit Base",
+            "type": "boolean"
+          },
+          "canExtendBase": {
+            "title": "Extend Base",
+            "type": "boolean"
+          },
+          "reservedSlots": {
+            "title": "Slots",
+            "type": "number",
+            "minimum": 0
+          }
+        }
+      }
+    }
+  }
+}

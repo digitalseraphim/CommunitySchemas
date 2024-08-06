@@ -1,0 +1,26 @@
+{
+    "path": "enshrouded1",
+    "type": "game",
+    "daemon": "enshrouded_server.exe",
+    "displayName": "Enshrouded (mod)",
+    "runningCount": 1,
+    "stopCommand": false,
+    "workingDir": "/home/minecraft/enshrouded1",
+    "envVars": {
+      "WINEARCH": "win64",
+      "WINEDEBUG": "-all"
+    },
+    "namespacedPorts": [15636, 15637, 27015, 27031, 27032, 27033, 27034, 27035, 27036],
+    "startCommand": "enshrouded_server.exe -log 2>&1 | ts",
+    "logLocation": "screenlog.0",
+    "icon": "https://cdn.creeper.host/shared/gameIcons/enshrouded.jpg",
+    "steamRuntime": "sniper",
+    "windows": true,
+    "kvSeperator": " ",
+    "steam": {
+      "id": 2278520,
+      "name": "Enshrouded Dedicated Server",
+      "minPackage": 17,
+      "icon": "https://cdn.creeper.host/shared/gameIcons/enshrouded.jpg"
+    }
+  }

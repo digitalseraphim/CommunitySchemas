@@ -37,7 +37,7 @@
   "files": [
     {
       "name": "config",
-      "path": "enshrouded1/enshrouded_server.json",
+      "path": "enshrouded/enshrouded_server.json",
       "handler": "json",
       "default": true
     }
@@ -81,12 +81,6 @@
       "type": "hidden",
       "title": "IP Address",
       "default": "0.0.0.0",
-      "category": "general"
-    },
-    "gamePort": {
-      "type": "hidden",
-      "title": "Game Port",
-      "default": 15636,
       "category": "general"
     },
     "queryPort": {
@@ -137,6 +131,15 @@
           "default": 1,
           "minimum": 0.25,
           "maximum": 4,
+          "category": "game"
+        },
+        "playerBodyHeatFactor": {
+          "title": "Player Body Heat",
+          "description": "Scales the max amount of available body heat in the player. The higher the factor the longer the player can stay in very cold areas before hypothermia sets in.",
+          "type": "number",
+          "default": 1,
+          "minimum": 0.5,
+          "maximum": 2,
           "category": "game"
         },
         "enableDurability": {
@@ -193,6 +196,26 @@
             ]
           },
           "default": "AddBackpackMaterials",
+          "category": "game"
+        },
+        "enableGliderTurbulences": {
+          "title": "Air turbulence while gliding",
+          "description": "If turned off, the glider will not be affected by air turbulences, just as in previous versions of the game.",
+          "type": "boolean",
+          "default": true,
+          "category": "game"
+        },
+        "weatherFrequency": {
+          "title": "Weather phenomena frequency",
+          "description": "This setting allows defining how often new weather phenomena appear in the game world.",
+          "type": "string",
+          "enum": ["Disabled", "Rare", "Normal", "Often"],
+          "options": {
+            "enum_titles": [
+              "Disabled", "Rare", "Normal", "Often"
+            ]
+          },
+          "default": "Normal",
           "category": "game"
         },
         "miningDamageFactor": {
@@ -362,6 +385,19 @@
           "default": false,
           "category": "game"
         },
+        "tamingStartleRepercussion": {
+          "title": "Taming failure repercussions",
+          "description": "This setting allows defining how the game reacts when the player startles the wildlife during taming. Progress is visualized by hearts in the game.",
+          "type": "string",
+          "enum": ["KeepProgress", "LoseSomeProgress", "LoseAllProgress"],
+          "options": {
+            "enum_titles": [
+              "KeepProgress", "LoseSomeProgress", "LoseAllProgress"
+            ]
+          },
+          "default": "LoseSomeProgress",
+          "category": "game"
+        },
         "dayTimeDuration": {
           "title": "Daytime",
           "description": "Scales the length of daytime. A smaller value equals shorter daytime. The unit is nanoseconds. Ingame, the time is displayed in minutes.",
@@ -384,35 +420,7 @@
       "title": "User Groups",
       "type": "array",
       "category": "user",
-      "default": [
-        {
-          "name": "Admin",
-          "password": "",
-          "canKickBan": true,
-          "canAccessInventories": true,
-          "canEditBase": true,
-          "canExtendBase": true,
-          "reservedSlots": 1
-        },
-        {
-          "name": "Friend",
-          "password": "",
-          "canKickBan": false,
-          "canAccessInventories": true,
-          "canEditBase": true,
-          "canExtendBase": true,
-          "reservedSlots": 0
-        },
-        {
-          "name": "Guest",
-          "password": "",
-          "canKickBan": false,
-          "canAccessInventories": false,
-          "canEditBase": false,
-          "canExtendBase": false,
-          "reservedSlots": 0
-        }
-      ],
+      "format": "table",
       "items": {
         "title": "UserGroup",
         "type": "object",
